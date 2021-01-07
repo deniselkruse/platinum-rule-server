@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
             unique: true
         },
         zipCode: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.NUMBER,
             allowNull: false,
         },
         email: {
