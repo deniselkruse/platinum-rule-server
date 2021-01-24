@@ -1,21 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const Recipient = sequelize.define('help', {
-        username: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        firstName: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        lastInitial: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        owner: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
+    const Recipient = sequelize.define('recipient', {
         title: {
             type: DataTypes.STRING,
             allowNull: false,

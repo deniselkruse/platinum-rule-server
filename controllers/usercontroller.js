@@ -15,7 +15,7 @@ router.post('/register', (req, res) => {
         username: req.body.user.username,
         zipCode: req.body.user.zipCode,
         email: req.body.user.email,
-        password: bcrypt.hashSync(req.body.user.password, 13)
+        password: bcrypt.hashSync(req.body.user.password, 13),
     })
         .then(user => {
             const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '30d' });
@@ -41,10 +41,10 @@ router.post('/login', function (req, res) {
     })
         .then(function loginSuccess(user) {
             if (user) {
-                
+
                 bcrypt.compare(req.body.user.password, user.password, function (err, matches) {
                     if (matches) {
-                        
+
                         let token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '30d' })
 
                         res.status(200).json({
@@ -62,5 +62,18 @@ router.post('/login', function (req, res) {
         })
         .catch(err => res.status(500).json({ error: err }))
 });
+
+/*********************
+****GET USER POSTS****
+**********************/
+
+//THIS IS NOT WORKING!!!
+
+router.get('/myposts', (req, res) => {
+    User.findAll({ include: ['recipient', 'help'] })
+        .then(info => res.status(200).json(info))
+        .catch(err => res.status(500).json(err))
+})
+
 
 module.exports = router;

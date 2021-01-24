@@ -1,21 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
     const Help = sequelize.define('help', {
-        username: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        firstName: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        lastInitial: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        owner: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
         title: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -25,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
         },
         availability: {
-            type: DataTypes.BOOLEAN,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         instances: {
