@@ -36,7 +36,7 @@ router.post('/create', validateSession, (req, res) => {
 ********************************/
 
 router.get("/", (req, res) => {
-    Recipient.findAll()
+    Recipient.findAll({include: ['user']})
         .then(recipient => res.status(200).json(recipient))
         .catch(err => res.status(500).json({ error: err }))
 });
