@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const sequelize = require ('sequelize');
 
 const validateSession = require('../middleware/validate-session');
 
@@ -11,16 +12,17 @@ const Recipient = require('../db').import('../models/recipient')
 router.post('/create', validateSession, (req, res) => {
     console.log(req.body)
     const recipientPost = {
-        title: req.body.help.title,
-        description: req.body.help.description,
-        availability: req.body.help.availability,
-        instances: req.body.help.instances,
-        date: req.body.help.date, // I want this to auto populate and format
-        inactiveDate: req.body.help.inactiveDate,
+        title: req.body.recipient.title,
+        description: req.body.recipient.description,
+        availability: req.body.recipient.availability,
+        // {availability: sequelize.fn('array_append', sequelize.col('availability'), req.body.recipient.availability)},
+        instances: req.body.recipient.instances,
+        date: req.body.recipient.date, // I want this to auto populate and format
+        inactiveDate: req.body.recipient.inactiveDate,
         userId: req.user.id
     }
 
-    Recipient.create(recipientPost)
+    Recipient.create(recipientPost, {availability: sequelize.fn('array_append', sequelize.col('availability'), req.body.recipient.availability)})
         .then(recipient => {
             res.json({
                 recipient: recipient,
