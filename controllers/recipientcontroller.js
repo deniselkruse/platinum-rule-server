@@ -15,14 +15,13 @@ router.post('/create', validateSession, (req, res) => {
         title: req.body.recipient.title,
         description: req.body.recipient.description,
         availability: req.body.recipient.availability,
-        // {availability: sequelize.fn('array_append', sequelize.col('availability'), req.body.recipient.availability)},
         instances: req.body.recipient.instances,
         date: req.body.recipient.date, // I want this to auto populate and format
         inactiveDate: req.body.recipient.inactiveDate,
         userId: req.user.id
     }
 
-    Recipient.create(recipientPost, {availability: sequelize.fn('array_append', sequelize.col('availability'), req.body.recipient.availability)})
+    Recipient.create(recipientPost)
         .then(recipient => {
             res.json({
                 recipient: recipient,
@@ -44,21 +43,20 @@ router.get("/", (req, res) => {
 });
 
 /*********************************
-****EDIT REQUEST POST BY USER*****
+****EDIT BY REQUEST POST BY USER*****
 **********************************/
 
-router.put('/:username', validateSession, (req, res) => {
+router.put('/:recipientId', validateSession, (req, res) => {
     const updateRecipientPost = {
-        title: req.body.help.title,
-        description: req.body.help.description,
-        availability: req.body.help.availability,
-        instances: req.body.help.instances,
-        date: req.body.help.date,
-        inactiveDate: req.body.help.inactiveDate,
-        userId: req.user.id
+        title: req.body.recipient.title,
+        description: req.body.recipient.description,
+        availability: req.body.recipient.availability,
+        instances: req.body.recipient.instances,
+        date: req.body.recipient.date,
+        inactiveDate: req.body.recipient.inactiveDate,
     }
 
-    const query = { where: { userId: req.params.userId } };
+    const query = { where: { userId: req.user.id, id: req.params.recipientId  } };
 
     Recipient.update(updateRecipientPost, query)
         .then((recipientPost) => res.status(200).json(recipientPost))
@@ -66,13 +64,13 @@ router.put('/:username', validateSession, (req, res) => {
 });
 
 /***********************************
-****DELETE REQUEST POST BY USER*****
+****DELETE BY REQUEST POST BY USER*****
 ************************************/
 
-router.delete('/:userId', validateSession, async (req, res) => {
+router.delete('/:recipientId', validateSession, async (req, res) => {
     try {
         const result = await Recipient.destroy({
-            where: { userId: req.params.userId }
+            where: { userId: req.user.id, id: req.params.recipientId }
         });
         res.status(200).json(result)
     } catch (err) {

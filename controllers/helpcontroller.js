@@ -42,10 +42,10 @@ router.get("/", (req, res) => {
 });
 
 /******************************
-****EDIT HELP POST BY USER*****
+****EDIT BY HELP POST BY USER*****
 ******************************/
 
-router.put('/:username', validateSession, (req, res) => {
+router.put('/:helpId', validateSession, (req, res) => {
     const updateHelpPost = {
         title: req.body.help.title,
         description: req.body.help.description,
@@ -53,10 +53,9 @@ router.put('/:username', validateSession, (req, res) => {
         instances: req.body.help.instances,
         date: req.body.help.date,
         inactiveDate: req.body.help.inactiveDate,
-        userId: req.user.id
     }
 
-    const query = { where: { userId: req.params.userId } };
+    const query = { where: { userId: req.user.id, id: req.params.helpId  } };
 
     Help.update(updateHelpPost, query)
         .then((helpPost) => res.status(200).json(helpPost))
@@ -64,13 +63,13 @@ router.put('/:username', validateSession, (req, res) => {
 });
 
 /********************************
-****DELETE HELP POST BY USER*****
+****DELETE BY HELP POST BY USER*****
 ********************************/
 
-router.delete('/:userId', validateSession, async (req, res) => {
+router.delete('/:helpId', validateSession, async (req, res) => {
     try {
         const result = await Help.destroy({
-            where: { userId: req.params.userId }
+            where: { userId: req.user.id, id: req.params.helpId  }
         });
         res.status(200).json(result)
     } catch (err) {

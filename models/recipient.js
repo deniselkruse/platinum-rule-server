@@ -9,7 +9,8 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
         },
         availability: {
-            type: DataTypes.ARRAY(DataTypes.STRING),
+            // type: DataTypes.ARRAY(DataTypes.STRING),
+            type: DataTypes.JSON,
             allowNull: false,
         },
         instances: {
