@@ -36,15 +36,15 @@ router.post('/create', validateSession, (req, res) => {
 ****VIEW ALL REQUEST POSTS*******
 ********************************/
 
-router.get("/", (req, res) => {
+router.get("/", validateSession, (req, res) => {
     Recipient.findAll({ include: ['user'] })
         .then(recipient => res.status(200).json(recipient))
         .catch(err => res.status(500).json({ error: err }))
 });
 
-/*********************************
+/************************************
 ****EDIT BY REQUEST POST BY USER*****
-**********************************/
+************************************/
 
 router.put('/:recipientId', validateSession, (req, res) => {
     const updateRecipientPost = {
