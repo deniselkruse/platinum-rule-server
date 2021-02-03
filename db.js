@@ -1,8 +1,14 @@
 const Sequelize= require('sequelize');
 
 const database = new Sequelize(process.env.DATABASE_URL, {
-    dialect: 'postgres'
-});
+    dialect: 'postgres',
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false, _// <<<<<<< YOU NEED THIS TO FIX UNHANDLED REJECTION_ 
+      },
+    },
+  });
  
 database.authenticate()
     .then(() => console.log('postgres db is connected'))
